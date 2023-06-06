@@ -33,6 +33,7 @@ for file_p in filepath:
     pdf.cell(w=26, h=11, txt=col[4], border=1, ln=1, align="C")
 
     # loading data from tabel
+    total_p = 0
     for index, row in data_frame.iterrows():
         pdf.set_font(family="Times", size=11)
         pdf.set_text_color(80, 80, 80)
@@ -41,8 +42,30 @@ for file_p in filepath:
         pdf.cell(w=40, h=11, txt=str(row["amount_purchased"]), border=1, align="C")
         pdf.cell(w=37, h=11, txt=str(row["price_per_unit"]), border=1, align="C")
         pdf.cell(w=26, h=11, txt=str(row["total_price"]), border=1, ln=1, align="C")
+        total_p += row["total_price"]
+
+    pdf.set_font(family="Times", size=11)
+    pdf.set_text_color(80, 80, 80)
+    pdf.cell(w=23, h=11, txt="", border=1)
+    pdf.cell(w=65, h=11, txt="", border=1)
+    pdf.cell(w=40, h=11, txt="", border=1)
+    pdf.cell(w=37, h=11, txt="", border=1)
+    pdf.cell(w=26, h=11, txt=str(total_p), border=1, align="C", ln=1)
+
+    # print total price
+    mess = f"The total amount due is {total_p} Euros"
+    pdf.set_font(family="Times", style="B", size=15)
+    pdf.cell(w=0, h=11, align="L", ln=1)
+    pdf.cell(w=0, h=11, align="L", ln=1)
+    pdf.cell(w=0, h=11, txt=mess, align="L", ln=1)
+
+    # add company logo and name
+    pdf.set_font(family="Times", style="B", size=13)
+    pdf.cell(w=30, h=11, txt="PythonHow")
+    pdf.image("images/pythonhow.png", w=15, h=15, x=32)
 
     pdf.output(f"output/{filename}.pdf")
+
 
 
 
